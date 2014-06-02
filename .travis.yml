@@ -9,6 +9,7 @@ branches:
     - master
 
 before_script:
+ - composer selfupdate
  - composer install
 
 notifications:

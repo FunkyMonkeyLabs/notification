@@ -1,14 +1,12 @@
 <?php
 
-namespace FML\Notification\Notification;
+namespace FML\Notification;
 
 use FML\Notification\Channel\ChannelInterface;
 use FML\Notification\Recipient\RecipientInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use FML\Notification\Message\MessageInterface;
 
-class Sender implements ContainerAwareInterface
+class Sender
 {
 
     /**
@@ -20,19 +18,6 @@ class Sender implements ContainerAwareInterface
      * @var MessageInterface[]
      */
     private $messages = array();
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @param ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @param ChannelInterface $channel
@@ -47,12 +32,8 @@ class Sender implements ContainerAwareInterface
      * @param RecipientInterface $recipient
      * @param array $parameters
      */
-    public function addMessage($name, RecipientInterface $recipient, array $parameters)
+    public function addMessage(MessageInterface $message, RecipientInterface $recipient, array $parameters)
     {
-        /**
-         * @var MessageInterface $message
-         */
-        $message = clone $this->container->get($name);
         $message->setRecipient($recipient);
         $message->setParameters($parameters);
 

@@ -18,7 +18,8 @@
   "autoload": {
     "psr-0": {
       "FML\\Tests\\Notification": "tests/",
-      "FML\\Notification": "src/"
+      "FML\\Notification": "src/",
+      "FML\\Notification\\Example": "example/"
     }
   }
 }

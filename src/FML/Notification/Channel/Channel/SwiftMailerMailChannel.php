@@ -5,7 +5,7 @@ namespace FML\Notification\Channel\Channel;
 use FML\Notification\Channel\AbstractChannel;
 use Swift_Mailer;
 
-class Mail extends AbstractChannel
+class SwiftMailerMailChannel extends AbstractChannel
 {
 
     public static $channelName = 'mail';
@@ -16,7 +16,7 @@ class Mail extends AbstractChannel
     private $sender;
 
     /**
-     * @param mixed $mailer
+     * @param object $mailer
      */
     public function __construct($mailer)
     {

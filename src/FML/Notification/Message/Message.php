@@ -60,6 +60,7 @@ abstract class Message implements MessageInterface
     public function setParameters(array $parameters = array())
     {
         $this->parameters = $parameters;
+        return $this;
     }
 
     /**
@@ -76,6 +77,7 @@ abstract class Message implements MessageInterface
     public function setRecipient(RecipientInterface $recipient)
     {
         $this->recipient = $recipient;
+        return $this;
     }
 
     /**
@@ -92,6 +94,7 @@ abstract class Message implements MessageInterface
     public function setSubject($subject)
     {
         $this->subject = $subject;
+        return $this;
     }
 
     /**
@@ -108,5 +111,6 @@ abstract class Message implements MessageInterface
     public function setFrom($from)
     {
         $this->from = $from;
+        return $this;
     }
 }

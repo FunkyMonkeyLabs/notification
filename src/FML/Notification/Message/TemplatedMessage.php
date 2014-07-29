@@ -9,7 +9,7 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
 abstract class TemplatedMessage extends Message
 {
     /**
-     * @var TimedTwigEngine
+     * @var TwigEngine
      */
     protected $templating;
 

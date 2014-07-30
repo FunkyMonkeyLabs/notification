@@ -20,7 +20,7 @@ class OutputChannel extends AbstractChannel
      * simple echo message to output
      * @return string
      */
-    public function send()
+    public function flush()
     {
         foreach ($this->messages as $message) {
             echo $message->getContent();

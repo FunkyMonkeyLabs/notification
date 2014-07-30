@@ -17,13 +17,14 @@ class PlainMessage extends Message
      */
     public function getContent()
     {
+        $recipients = '';
+        foreach($this->getRecipients() as $recipient){
+            $recipients .= $recipient->getName().' '.$recipient->getAddress()."\r\n";
+        }
         $content =
             $this->getSubject()
             ."\r\n"
-            ."Hello "
-            .$this->getRecipient()->getName()
-            ." "
-            .$this->getRecipient()->getAddress()
+            ."Hello ".$recipients
             ."\r\n"
             ;
         foreach ($this->parameters as $key => $parameter) {

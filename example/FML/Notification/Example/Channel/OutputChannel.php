@@ -12,7 +12,6 @@ class OutputChannel extends AbstractChannel
 
     public function __construct()
     {
-        parent::__construct();
         $this->name = self::$channelName;
     }
 

@@ -29,9 +29,9 @@ interface MessageInterface
     public function getContent();
 
     /**
-     * @return RecipientInterface
+     * @return RecipientInterface[]
      */
-    public function getRecipient();
+    public function getRecipients();
 
     /**
      * @return string
@@ -40,13 +40,13 @@ interface MessageInterface
 
     /**
      * @param RecipientInterface $recipient
-     * @return mixed
+     * @return $this
      */
-    public function setRecipient(RecipientInterface $recipient);
+    public function addRecipient(RecipientInterface $recipient);
 
     /**
      * @param array $parameters
-     * @return mixed
+     * @return $this
      */
     public function setParameters(array $parameters = array());
 }

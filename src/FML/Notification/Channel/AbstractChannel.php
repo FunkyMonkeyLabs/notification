@@ -16,17 +16,12 @@ abstract class AbstractChannel implements ChannelInterface
     /**
      * @var MessageInterface[]
      */
-    protected $messages;
+    protected $messages = array();
 
     /**
      * @var MessageInterface[]
      */
     protected $messageTemplates;
-
-    public function __construct()
-    {
-        $this->messages = array();
-    }
 
     /**
      * @return string

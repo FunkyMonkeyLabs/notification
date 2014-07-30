@@ -15,7 +15,7 @@ interface ChannelInterface
     /**
      * @return string
      */
-    public function send();
+    public function flush();
 
     /**
      * @param MessageInterface $message

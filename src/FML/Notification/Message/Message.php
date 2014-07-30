@@ -24,9 +24,9 @@ abstract class Message implements MessageInterface
     protected $channel;
 
     /**
-     * @var RecipientInterface
+     * @var RecipientInterface[]
      */
-    protected $recipient;
+    protected $recipients;
 
     /**
      * @var string
@@ -64,20 +64,21 @@ abstract class Message implements MessageInterface
     }
 
     /**
-     * @return RecipientInterface
+     * @param RecipientInterface $recipient
+     * @return $this
      */
-    public function getRecipient()
+    public function addRecipient(RecipientInterface $recipient)
     {
-        return $this->recipient;
+        $this->recipients[] = $recipient;
+        return $this;
     }
 
     /**
-     * @param RecipientInterface $recipient
+     * @return RecipientInterface[]
      */
-    public function setRecipient(RecipientInterface $recipient)
+    public function getRecipients()
     {
-        $this->recipient = $recipient;
-        return $this;
+        return $this->recipients;
     }
 
     /**

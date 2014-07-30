@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Notification by FunkyMonkeyLabs</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Notification</h1>
+        <p>Library which helps you to send notification (via different channels) to user.</p>
+
+        <p class="view"><a href="https://github.com/FunkyMonkeyLabs/notification">View the Project on GitHub <small>FunkyMonkeyLabs/notification</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/FunkyMonkeyLabs/notification/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/FunkyMonkeyLabs/notification/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/FunkyMonkeyLabs/notification">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a name="whats-that" class="anchor" href="#whats-that"><span class="octicon octicon-link"></span></a>What's that?</h3>
+
+<p>FML/Notification lib allows to send notification through different channels during application runtime.
+Library can collect many messages to many users and send it to them once, when application is going down.</p>
+
+<h3>
+<a name="instalation" class="anchor" href="#instalation"><span class="octicon octicon-link"></span></a>Instalation</h3>
+
+<h4>
+<a name="composer" class="anchor" href="#composer"><span class="octicon octicon-link"></span></a>composer</h4>
+
+<pre><code>$ php composer.phar require fml/notification:1.3
+</code></pre>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<p>By default there is a one channel - mail channel. It requires mailer service (Swift_Mailer). If you want to send notification to user Patryk with e-mail address <a href="mailto:contact@funkymonkeylabs.pl">contact@funkymonkeylabs.pl</a>, with message "Hello Patryk", you have to write:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// index.php</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
+
+<span class="nv">$channel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Channel\Channel\SwiftMailerMailChannel</span><span class="p">();</span>
+<span class="nv">$messageManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\MessageManager</span><span class="p">();</span>
+<span class="nv">$messageManager</span><span class="o">-&gt;</span><span class="na">addChannel</span><span class="p">(</span><span class="nv">$channel</span><span class="p">);</span>
+
+<span class="nv">$recipient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Recipient\Recipient</span><span class="p">();</span>
+<span class="nv">$recipient</span>
+    <span class="o">-&gt;</span><span class="na">setAddress</span><span class="p">(</span><span class="s1">'contact@funkymonkeylabs.pl'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'Patryk'</span><span class="p">);</span>
+
+<span class="nv">$message</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Example\Message\PlainMessage</span><span class="p">();</span>
+<span class="nv">$message</span>
+    <span class="o">-&gt;</span><span class="na">addRecipient</span><span class="p">(</span><span class="nv">$recipient</span><span class="p">);</span>
+
+<span class="nv">$messageManager</span><span class="o">-&gt;</span><span class="na">addMessage</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+<span class="nv">$messageManager</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+</pre></div>
+
+<h3>
+<a name="creating-new-channels" class="anchor" href="#creating-new-channels"><span class="octicon octicon-link"></span></a>Creating new channels</h3>
+
+<p>You can also create your own channel (for example if you are going to send SMS messages).</p>
+
+<div class="highlight highlight-php"><pre><span class="c1">// src/Acme/Channel/SmsChannel.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\Channel</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">FML\Notification\Channel\AbstractChannel</span><span class="p">;</span>
+<span class="nx">yse</span> <span class="nx">Acme\Provider\SmsProvider</span>
+
+<span class="k">class</span> <span class="nc">SmsChannel</span> <span class="k">extends</span> <span class="nx">AbstractChannel</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="nv">$channelName</span> <span class="o">=</span> <span class="s1">'sms'</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @param SmsProvider</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$smsProvider</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$smsProvider</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="nv">$channelName</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">provider</span> <span class="o">=</span> <span class="nv">$smsProvider</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * send notifications by sms provider</span>
+<span class="sd">     * @return string</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">flush</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">messages</span> <span class="k">as</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$recipients</span> <span class="o">=</span> <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">getRecipients</span><span class="p">();</span>
+            <span class="k">foreach</span><span class="p">(</span><span class="nv">$message</span><span class="o">-&gt;</span><span class="na">getRecipients</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">provider</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span>
+                    <span class="nv">$recipient</span><span class="o">-&gt;</span><span class="na">getAddress</span><span class="p">(),</span> <span class="c1">// it can be phone number for example</span>
+                    <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()</span>
+                <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>next, you have to create notification that can be send by SmsChannel:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// src/Acme/Message/SmsMessage.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\Message</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">FML\Notification\Message\Message</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">SmsMessage</span> <span class="k">extends</span> <span class="nx">Message</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">channel</span> <span class="o">=</span> <span class="s1">'sms'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @return string</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getContent</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$content</span><span class="p">;</span> <span class="c1">// simple return given content</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>last step is similar to first example:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// index.php</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
+<span class="nv">$provider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\Provider\SmsProvider</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="o">...</span><span class="p">));</span> <span class="c1">// create new instance of sms provider with some configuration</span>
+<span class="nv">$smsChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\Channel\SmsChannel</span><span class="p">(</span><span class="nv">$provider</span><span class="p">);</span>
+<span class="nv">$mailChannel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Channel\Channel\SwiftMailerMailChannel</span><span class="p">();</span>
+
+<span class="nv">$messageManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\MessageManager</span><span class="p">();</span>
+<span class="nv">$messageManager</span>
+    <span class="o">-&gt;</span><span class="na">addChannel</span><span class="p">(</span><span class="nv">$mailChannel</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addChannel</span><span class="p">(</span><span class="nv">$smsChannel</span><span class="p">);</span>
+
+<span class="nv">$recipient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Recipient\Recipient</span><span class="p">();</span>
+<span class="nv">$recipient</span>
+    <span class="o">-&gt;</span><span class="na">setAddress</span><span class="p">(</span><span class="s1">'contact@funkymonkeylabs.pl'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'Patryk'</span><span class="p">);</span>
+
+<span class="c1">// mail message</span>
+<span class="nv">$message</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Example\Message\PlainMessage</span><span class="p">();</span>
+<span class="nv">$message</span>
+    <span class="o">-&gt;</span><span class="na">addRecipient</span><span class="p">(</span><span class="nv">$recipient</span><span class="p">);</span>
+
+<span class="c1">// sms message</span>
+<span class="nv">$smsRecipient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\FML\Notification\Recipient\Recipient</span><span class="p">();</span>
+<span class="nv">$smsRecipient</span>
+    <span class="o">-&gt;</span><span class="na">setAddress</span><span class="p">(</span><span class="s1">'883-211-446'</span><span class="p">);</span> <span class="c1">//FunkyMonkeyLabs phone number! Yeah!</span>
+
+<span class="nv">$smsMessage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Acme\Message\SmsMessage</span><span class="p">();</span>
+<span class="nv">$smsMessage</span>
+    <span class="o">-&gt;</span><span class="na">addRecipient</span><span class="p">(</span><span class="nv">$recipient</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s2">"Hello from Mars!"</span><span class="p">);</span>
+
+<span class="nv">$messageManager</span>
+    <span class="o">-&gt;</span><span class="na">addMessage</span><span class="p">(</span><span class="nv">$message</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addMessage</span><span class="p">(</span><span class="nv">$smsMessage</span><span class="p">);</span>
+
+<span class="nv">$messageManager</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+</pre></div>
+
+<p>That's it! You just sent two messages. Email + sms. So simple, right?</p>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p><a href="https://github.com/abdulklarapl" class="user-mention">@abdulklarapl</a> Patryk Szlagowski</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with library? Check <a href="https://github.com/FunkyMonkeyLabs/notification">https://github.com/FunkyMonkeyLabs/notification</a> and give us some info! You can create issue as well.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/FunkyMonkeyLabs">FunkyMonkeyLabs</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

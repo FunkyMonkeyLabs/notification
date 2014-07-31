@@ -39,6 +39,9 @@ class MessageManager
         return $this;
     }
 
+    /**
+     * flush filled channels
+     */
     public function flush()
     {
         foreach ($this->messages as $channel => $messages) {
@@ -48,5 +51,16 @@ class MessageManager
             }
             $channel->flush();
         }
+    }
+
+    /**
+     * send immediately message
+     * @param MessageInterface $message
+     */
+    public function sendMessage(MessageInterface $message)
+    {
+        $channel = $this->channels[$message->getChannel()];
+        $channel->addMessage($message);
+        $channel->flush();
     }
 }

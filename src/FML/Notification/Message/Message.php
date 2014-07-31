@@ -26,7 +26,7 @@ abstract class Message implements MessageInterface
     /**
      * @var RecipientInterface[]
      */
-    protected $recipients;
+    protected $recipients = array();
 
     /**
      * @var string
@@ -36,7 +36,7 @@ abstract class Message implements MessageInterface
     /**
      * @var array
      */
-    protected $parameters;
+    protected $parameters = array();
 
     /**
      * @return string

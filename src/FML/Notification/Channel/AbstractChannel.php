@@ -19,11 +19,6 @@ abstract class AbstractChannel implements ChannelInterface
     protected $messages = array();
 
     /**
-     * @var MessageInterface[]
-     */
-    protected $messageTemplates;
-
-    /**
      * @return string
      */
     public function getName()
@@ -33,26 +28,21 @@ abstract class AbstractChannel implements ChannelInterface
 
     /**
      * @param string $name
+     * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @param MessageInterface $messages
-     */
-    public function addMessageTemplate(MessageInterface $message)
-    {
-        $this->messageTemplates[$message->getName()] = $message;
+        return $this;
     }
 
     /**
      * @param MessageInterface $message
-     * @return mixed|void
+     * @return $this
      */
     public function addMessage(MessageInterface $message)
     {
         $this->messages[] = $message;
+        return $this;
     }
 }

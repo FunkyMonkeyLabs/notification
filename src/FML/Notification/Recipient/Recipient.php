@@ -27,6 +27,7 @@ class Recipient implements RecipientInterface
 
     /**
      * @param string $address
+     * @return $this
      */
     public function setAddress($address)
     {
@@ -44,6 +45,7 @@ class Recipient implements RecipientInterface
 
     /**
      * @param string $name
+     * @return $this
      */
     public function setName($name)
     {

@@ -19,7 +19,7 @@ interface ChannelInterface
 
     /**
      * @param MessageInterface $message
-     * @return mixed
+     * @return $this
      */
     public function addMessage(MessageInterface $message);
 }

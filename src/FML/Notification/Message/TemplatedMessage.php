@@ -19,5 +19,6 @@ abstract class TemplatedMessage extends Message
     public function setTemplating(TwigEngine $templating)
     {
         $this->templating = $templating;
+        return $this;
     }
 }

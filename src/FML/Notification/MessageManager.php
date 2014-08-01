@@ -12,12 +12,12 @@ class MessageManager
     /**
      * @var ChannelInterface[]
      */
-    private $channels;
+    protected $channels;
 
     /**
      * @var MessageInterface[]
      */
-    private $messages = array();
+    protected $messages = array();
 
     /**
      * @param ChannelInterface $channel
@@ -27,30 +27,6 @@ class MessageManager
     {
         $this->channels[$channel->getName()] = $channel;
         return $this;
-    }
-
-    /**
-     * @param MessageInterface $message
-     * @return $this
-     */
-    public function addMessage(MessageInterface $message)
-    {
-        $this->messages[$message->getChannel()][] = $message;
-        return $this;
-    }
-
-    /**
-     * flush filled channels
-     */
-    public function flush()
-    {
-        foreach ($this->messages as $channel => $messages) {
-            $channel = $this->channels[$channel];
-            foreach ($messages as $message) {
-                $channel->addMessage($message);
-            }
-            $channel->flush();
-        }
     }
 
     /**

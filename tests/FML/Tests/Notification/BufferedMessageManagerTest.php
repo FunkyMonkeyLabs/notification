@@ -4,10 +4,10 @@ namespace FML\Tests\Notification;
 
 use FML\Notification\Example\Channel\OutputChannel;
 use FML\Notification\Example\Message\PlainMessage;
-use FML\Notification\MessageManager;
+use FML\Notification\BufferedMessageManager;
 use FML\Notification\Recipient\Recipient;
 
-class MessageManagerTest extends \PHPUnit_Framework_TestCase
+class BufferedMessageManagerTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testSendMessages()
@@ -25,12 +25,13 @@ class MessageManagerTest extends \PHPUnit_Framework_TestCase
                 ));
         $outputChannel = new OutputChannel();
 
-        $manager = new MessageManager();
+        $manager = new BufferedMessageManager();
         $manager
-            ->addChannel($outputChannel);
+            ->addChannel($outputChannel)
+            ->addMessage($message);
 
         ob_start();
-        $manager->sendMessage($message);
+        $manager->flush();
         $content = trim(str_replace("\r\n", " ", ob_get_clean()));
 
         $this->assertEquals($content, "test Hello test 1111  foo:bar");

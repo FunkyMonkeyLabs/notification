@@ -18,5 +18,4 @@ $message
             'foo' => 'bar'
         ));
 
-$messageManager->addMessage($message);
-$messageManager->flush();
+$messageManager->sendMessage($message); // it will be send on demand

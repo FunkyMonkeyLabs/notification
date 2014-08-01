@@ -3,7 +3,6 @@
 namespace FML\Notification;
 
 use FML\Notification\Channel\ChannelInterface;
-use FML\Notification\Recipient\RecipientInterface;
 use FML\Notification\Message\MessageInterface;
 
 class MessageManager

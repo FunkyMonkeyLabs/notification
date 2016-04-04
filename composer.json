@@ -21,14 +21,16 @@
     "swiftmailer/swiftmailer": "^5.2"
   },
   "autoload": {
-    "psr-0": {
-      "FML\\Notification": "src/"
+    "psr-4": {
+      "FML\\Notification\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-0": {
-      "FML\\Notification\\Example": "example/",
-      "FML\\Tests\\Notification": "tests/"
+      "FML\\Notification\\Example\\": "example/"
+    },
+    "psr-4": {
+      "FML\\Tests\\Notification\\": "tests/"
     }
   }
 }

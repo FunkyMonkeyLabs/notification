@@ -41,6 +41,7 @@ class SwiftMailerMailChannel extends AbstractChannel
                    'text/html'
                );
             $this->sender->send($newMessage);
+            $this->messages = array();
         }
     }
 }
